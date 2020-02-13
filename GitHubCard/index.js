@@ -1,8 +1,10 @@
+getUserData('Pergamene', true);
+
 /* Step 1: using axios, send a GET request to the following URL 
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-function getUserData(username) {
+function getUserData(username, getFollowers) {
 
   const cards = document.querySelector('.cards');
 
@@ -10,6 +12,19 @@ function getUserData(username) {
     .then(function(response) {
       console.log(response);
       cards.appendChild(createUserCard(response.data));
+
+      if (getFollowers) {
+        axios.get(response.data.followers_url)
+        .then(function(response) {
+          console.log(response);
+          response.data.forEach(user => {
+            getUserData(user.login, false);
+          });
+        })
+        .catch(function(error) {
+          console.error(error);
+        })
+      }
     })
     .catch(function(error) {
       console.error(error);
@@ -37,11 +52,6 @@ function getUserData(username) {
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
-
-const followersArray = ['Pergamene', 'rhyeen', 'Afialydia', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
-for (follower of followersArray) {
-  getUserData(follower);
-}
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
