@@ -92,8 +92,8 @@ function createUserCard(userData) {
   cardInfo.appendChild(profile);
   
   const userLink = document.createElement('a');
-  userLink.setAttribute('href', userData.url);
-  userLink.textContent = userData.url;
+  userLink.setAttribute('href', userData.html_url);
+  userLink.textContent = userData.html_url;
   profile.appendChild(userLink);
 
   const followers = document.createElement('p');
